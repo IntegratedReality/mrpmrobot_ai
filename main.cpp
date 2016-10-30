@@ -7,18 +7,19 @@
 #include <mutex>
 #include "unistd.h"
 
-using namespace std;
 
-#include "osc/RobotReceiver.h"
-#include "osc/RobotSender.h"
+#include "osc/AIReceiver.h"
+#include "osc/AISender.h"
 
 #include "AI/AI.h"
 
+const std::string robotHostname = "127.0.0.1"; //localhost
+const int PORT_ROBOT = 8000;
+
+using namespace std;
 std::mutex mutex_obj;
 
 extern int ID;
-
-double distance(Position _p1, Position _p2);
 
 AI ai;
 
@@ -32,10 +33,10 @@ int main(int argc, char **argv)
 
 	ai.init(ID);
 
-	RobotReceiver receiver;
+	AIReceiver receiver;
 	receiver.init();
-	RobotSender sender;
-	sender.setup("Coconuts.local", 8000);
+	AISender sender;
+	sender.setup(robotHostname, PORT_ROBOT);
 
 	while (!receiver.checkMessageReceived());
 
@@ -144,8 +145,4 @@ int main(int argc, char **argv)
 		usleep(10000);
 	}
 	return 0;
-}
-
-double distance(Position _p1, Position _p2) {
-	return sqrt(pow(_p1.x - _p2.x, 2.) + pow(_p1.y - _p2.y, 2.));
 }
