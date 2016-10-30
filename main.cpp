@@ -35,13 +35,15 @@ int main(int argc, char **argv)
 
 	AIReceiver receiver;
 	receiver.init();
+
 	AISender sender;
-	sender.setup(robotHostname, PORT_ROBOT
-      mainHostname, PORT_MAINRCV);
+	sender.setup(
+      robotHostname, PORT_ROBOT,
+      mainHostname, PORT_MAINRCV
+      );
 
 	while (!receiver.checkMessageReceived());
 
-	long count = 0;
 	std::thread ai_thread([&](){
 		sender.sendShot(ID, false);
 		//while (ID >= 3 || receiver.getData(ID).isAI) {

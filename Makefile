@@ -1,6 +1,6 @@
-TARGET	= main.bin
-INCLUDES = -I/usr/local/include/eigen3 -I/usr/local/include/oscpack
-LDFLAGS = -lwiringPi -loscpack -lpthread
+TARGET	= ai.bin
+INCLUDES = -I/usr/local/include/oscpack
+LDFLAGS = -loscpack
 NOMAKEDIR = .git%
 OBJDIR = objs
 
@@ -42,4 +42,4 @@ clean:
 -include $(DEPS)
 
 run:
-	./main.bin `uname -n | cut -c 7`
+	./$(TARGET) `uname -n | cut -c 7`

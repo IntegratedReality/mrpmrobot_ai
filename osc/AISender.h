@@ -13,8 +13,8 @@ class AISender{
     AISender();
     //void setup(std::string& host, int port);
     void setup(
-        std::string& robotHost, int robotPort,
-        std::string& mainHost, int mainPort);
+        const std::string& robotHost, int robotPort,
+        const std::string& mainHost, int mainPort);
     //void sendPos(int x, int y, int z);
     void sendShot(int _id, bool _shot);
     void sendOperation(int _operation);
@@ -23,5 +23,6 @@ class AISender{
     std::string robotHost, mainHost;
     int robotPort, mainPort;
     //int portname;
-    UdpTransmitSocket* robotSock, mainSock;
+    std::unique_ptr<UdpTransmitSocket>
+      robotSock, mainSock;
 };

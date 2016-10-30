@@ -8,8 +8,8 @@ AISender::AISender()
 }
 
 void AISender::setup(
-    std::string& robotHost, int robotPort,
-    std::string& mainHost, int mainPort)
+    const std::string& robotHost, int robotPort,
+    const std::string& mainHost, int mainPort)
 {
   this->robotHost = robotHost;
   this->mainHost = mainHost;
