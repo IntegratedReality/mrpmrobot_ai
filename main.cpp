@@ -1,8 +1,6 @@
 
 #include <iostream>
-#include <cmath>
-#include <cstdlib>
-#include <array>
+#include <cstdlib> //for atoi
 #include <thread>
 #include <mutex>
 #include "unistd.h"
@@ -51,6 +49,7 @@ int main(int argc, char **argv)
 			static bool last_shot_state = ai.getOperation().shot;
 			//if (!(receiver.getData(ID).state == DEAD || receiver.getData(ID).state == STANDBY)) {
       if (last_shot_state != ai.getOperation().shot) {
+      //ONかOFFの瞬間だけ送る
       sender.sendShot(ID, ai.getOperation().shot);
       }
 			//}

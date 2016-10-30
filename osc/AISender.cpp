@@ -17,11 +17,13 @@ void AISender::setup(
   this->mainPort = mainPort;
 
   robotSock
-    = new UdpTransmitSocket(IpEndpointName(
-          robotHost.c_str(), robotPort));
+    =std::unique_ptr<UdpTransmitSocket>
+    (new UdpTransmitSocket(IpEndpointName(
+          robotHost.c_str(), robotPort)));
   mainSock
-    = new UdpTransmitSocket(IpEndpointName(
-          mainHost.c_str(), mainPort));
+    =std::unique_ptr<UdpTransmitSocket>
+    (new UdpTransmitSocket(IpEndpointName(
+          mainHost.c_str(), mainPort)));
 }
 
 /*
