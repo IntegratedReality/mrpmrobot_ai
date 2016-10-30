@@ -1,6 +1,6 @@
-#include "RobotReceiver.h"
+#include "AIReceiver.h"
 
-void RobotReceiver::init() {
+void AIReceiver::init() {
 	for	(int i = 0; i < NUM_OF_ROBOT; i++) {
 		data[i].init();
 	}
@@ -9,15 +9,15 @@ void RobotReceiver::init() {
 	th.detach();
 }
 
-RobotData RobotReceiver::getData(int _id) {
+RobotData AIReceiver::getData(int _id) {
 	return data[_id];
 }
 
-ETeam RobotReceiver::getPOOwner(int _id) {
+ETeam AIReceiver::getPOOwner(int _id) {
 	return owner[_id];
 }
 
-bool RobotReceiver::checkMessageReceived(void)
+bool AIReceiver::checkMessageReceived(void)
 {
 	return listener.checkMessageReceived();
 }

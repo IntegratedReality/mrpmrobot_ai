@@ -9,7 +9,7 @@
 #include "../common/RobotData.h"
 #include "../common/Const.h"
 
-class RobotListener : public osc::OscPacketListener {
+class AIListener : public osc::OscPacketListener {
 	public:
 		void setup(RobotData *_data, ETeam *_owner);
 		virtual void ProcessMessage(const osc::ReceivedMessage& msg, const IpEndpointName& remoteEndPoint );

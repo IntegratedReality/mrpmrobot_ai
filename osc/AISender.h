@@ -8,15 +8,20 @@
 
 #define OUTPUT_BUFFER_SIZE 1024
 
-class RobotSender{
-    public:
-        RobotSender();
-        void setup(std::string host, int port);
-        void sendPos(int x, int y, int z);
-        void sendShot(int _id, bool _shot);
+class AISender{
+  public:
+    AISender();
+    //void setup(std::string& host, int port);
+    void setup(
+        std::string& robotHost, int robotPort,
+        std::string& mainHost, int mainPort);
+    //void sendPos(int x, int y, int z);
+    void sendShot(int _id, bool _shot);
+    void sendOperation(int _operation);
 
-    private:
-        std::string hostname;
-        int portname;
-        UdpTransmitSocket* socket;
+  private:
+    std::string robotHost, mainHost;
+    int robotPort, mainPort;
+    //int portname;
+    UdpTransmitSocket* robotSock, mainSock;
 };

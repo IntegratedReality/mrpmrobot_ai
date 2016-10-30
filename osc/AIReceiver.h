@@ -9,13 +9,13 @@
 
 #include "../common/RobotData.h"
 #include "../common/Const.h"
-#include "RobotListener.h"
+#include "AIListener.h"
 
 #define PORT 8000
 
-class RobotReceiver {
+class AIReceiver {
 	public:
-		RobotReceiver() : s(IpEndpointName(IpEndpointName::ANY_ADDRESS, PORT), &listener) {}
+		AIReceiver() : s(IpEndpointName(IpEndpointName::ANY_ADDRESS, PORT), &listener) {}
 		void init();
 		void update();
 		RobotData getData(int _id);
@@ -23,7 +23,7 @@ class RobotReceiver {
 		bool checkMessageReceived(void);
 	private:
 		std::thread th;
-		RobotListener listener;
+		AIListener listener;
 		UdpListeningReceiveSocket s;
 		RobotData data[NUM_OF_ROBOT];
 		ETeam owner[3];

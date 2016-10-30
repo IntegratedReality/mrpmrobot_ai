@@ -1,4 +1,4 @@
-#include "RobotListener.h"
+#include "AIListener.h"
 
 #include <mutex>
 #include <iostream>
@@ -6,12 +6,12 @@ using namespace std;
 
 extern std::mutex mutex_obj;
 
-void RobotListener::setup(RobotData *_data, ETeam *_owner) {
+void AIListener::setup(RobotData *_data, ETeam *_owner) {
 	data = _data;
 	owner = _owner;
 }
 
-void RobotListener::ProcessMessage(const osc::ReceivedMessage& m, __attribute__((unused)) const IpEndpointName& remoteEndPoint) {
+void AIListener::ProcessMessage(const osc::ReceivedMessage& m, __attribute__((unused)) const IpEndpointName& remoteEndPoint) {
 	try {
 		if(std::strcmp(m.AddressPattern(), "/main/position") == 0) {
 			osc::ReceivedMessageArgumentStream args = m.ArgumentStream();
@@ -62,7 +62,7 @@ void RobotListener::ProcessMessage(const osc::ReceivedMessage& m, __attribute__(
 	mutex_obj.unlock();
 }
 
-bool RobotListener::checkMessageReceived(void)
+bool AIListener::checkMessageReceived(void)
 {
 	mutex_obj.lock();
 	//cout << "Message:lock" << endl;
