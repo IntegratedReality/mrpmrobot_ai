@@ -11,11 +11,11 @@
 #include "../common/Const.h"
 #include "AIListener.h"
 
-#define PORT 8000
+const int PORT_OPERATOR{8001};
 
 class AIReceiver {
 	public:
-		AIReceiver() : s(IpEndpointName(IpEndpointName::ANY_ADDRESS, PORT), &listener) {}
+		AIReceiver() : s(IpEndpointName(IpEndpointName::ANY_ADDRESS, PORT_OPERATOR), &listener) {}
 		void init();
 		void update();
 		RobotData getData(int _id);

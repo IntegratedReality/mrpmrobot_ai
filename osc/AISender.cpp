@@ -26,22 +26,6 @@ void AISender::setup(
           mainHost.c_str(), mainPort)));
 }
 
-/*
-void AISender::sendPos(int x, int y, int z)
-{
-    char buffer[OUTPUT_BUFFER_SIZE];
-    osc::OutboundPacketStream p(buffer, OUTPUT_BUFFER_SIZE);
-
-    p << osc::BeginBundleImmediate
-        << osc::BeginMessage("/robot/pos")
-        << x << y << z
-        << osc::EndMessage
-        << osc::EndBundle;
-
-    socket->Send(p.Data(), p.Size());
-}
-*/
-
 void AISender::sendShot(int _id, bool _shot) {
   char buffer[OUTPUT_BUFFER_SIZE];
   osc::OutboundPacketStream p(buffer, OUTPUT_BUFFER_SIZE);

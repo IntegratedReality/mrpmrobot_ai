@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <memory>
 #include <oscpack/osc/OscTypes.h>
 #include <oscpack/osc/OscOutboundPacketStream.h>
 #include <oscpack/ip/UdpSocket.h>

@@ -1,6 +1,6 @@
 TARGET	= ai.bin
 INCLUDES = -I/usr/local/include/oscpack
-LDFLAGS = -loscpack
+LDFLAGS = -loscpack -lpthread
 NOMAKEDIR = .git%
 OBJDIR = objs
 
