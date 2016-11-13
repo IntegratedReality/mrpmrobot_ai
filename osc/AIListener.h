@@ -18,4 +18,6 @@ class AIListener : public osc::OscPacketListener {
 		RobotData *data;
 		ETeam *owner;
 		bool m_message_received;
+
+    void assignPosData(int _id, osc::ReceivedMessageArgumentStream& _argstr);
 };

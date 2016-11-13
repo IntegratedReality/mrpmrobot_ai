@@ -1,59 +1,58 @@
 #include "AIListener.h"
+#include "../common/Const.h"
 
 #include <mutex>
 #include <iostream>
 using namespace std;
 
 extern std::mutex mutex_obj;
+extern int ID;
 
 void AIListener::setup(RobotData *_data, ETeam *_owner) {
 	data = _data;
 	owner = _owner;
 }
 
+void AIListener::assignPosData(int _id, osc::ReceivedMessageArgumentStream& _argstr){
+  double x;
+  double y;
+  double theta;
+
+  _argstr >> x >> y >> theta >> osc::EndMessage;
+  auto& d = data[_id];
+  d.id=_id;
+  d.pos.x=x;
+  d.pos.y=y;
+  d.pos.theta=theta;
+}
+
 void AIListener::ProcessMessage(const osc::ReceivedMessage& m, __attribute__((unused)) const IpEndpointName& remoteEndPoint) {
-	try {
-		if(std::strcmp(m.AddressPattern(), "/main/position") == 0) {
-			osc::ReceivedMessageArgumentStream args = m.ArgumentStream();
-			osc::int32 id;
-			osc::int32 time;
-			double x;
-			double y;
-			double theta;
-			double HP;
-			double EN;
-			osc::int32 state;
+  try {
+    if(std::strcmp(m.AddressPattern(), "/main/toAI/yourpos") == 0) {
+      auto argstr = m.ArgumentStream();
+      assignPosData(ID, argstr);
 
-			args >> id >> time >> x >> y >> theta >> HP >> EN >> state >> osc::EndMessage;
-			data[id].id = id;
-			data[id].time = time;
-			//cout << time << endl;
-			data[id].pos.x = x;
-			data[id].pos.y = y;
-			data[id].pos.theta = theta;
-			data[id].HP = HP;
-			data[id].EN = EN;
-			data[id].state = (EState)state;
-			data[id].team = id < 3 ? TEAM_A : TEAM_B;
-		} else if (std::strcmp(m.AddressPattern(), "/main/poowner") == 0) {
-			osc::ReceivedMessageArgumentStream args = m.ArgumentStream();
-			osc::int32 id;
-			osc::int32 team;
+      std::cerr<<"/main/toAI/yourpos"<<std::endl;
 
-			args >> id >> team >> osc::EndMessage;
-			owner[id] = (ETeam)team;
-		} else if (std::strcmp(m.AddressPattern(), "/controller/operation") == 0) {
-			osc::ReceivedMessageArgumentStream args = m.ArgumentStream();
-			bool isAI;
-			osc::int32 drc;
-			bool shot;
+    } else if (std::strcmp(m.AddressPattern(), "/main/toAI/allpos") == 0) {
+      auto argstr = m.ArgumentStream();
+      for(int i=0; i<NUM_OF_ROBOT; ++i){
+        assignPosData(i, argstr);
+      }
+      std::cerr<<"/main/toAI/allpos"<<std::endl;
 
-			args >> isAI >> drc >> shot >> osc::EndMessage;
-			data[ID].isAI = isAI;
-			data[ID].operation.direction = (EDirection)drc;
-			data[ID].operation.shot = shot;
-		}
-	} catch(osc::Exception& e) {
+    } else if (std::strcmp(m.AddressPattern(), "/main/toAI/POowner") == 0) {
+      osc::ReceivedMessageArgumentStream args = m.ArgumentStream();
+
+      for(int i=0; i<NUM_OF_POINT_OBJ; ++i){
+        osc::int32 team;
+        args >> team >> osc::EndMessage;
+        owner[i] = (ETeam)team;
+      }
+
+      std::cerr<<"/main/toAI/POowner"<<std::endl;
+    }
+  } catch(osc::Exception& e) {
 		std::cout << "error while parsing message :."
 			<< m.AddressPattern() << ": " << e.what() << "\n";
 	}
@@ -62,8 +61,7 @@ void AIListener::ProcessMessage(const osc::ReceivedMessage& m, __attribute__((un
 	mutex_obj.unlock();
 }
 
-bool AIListener::checkMessageReceived(void)
-{
+bool AIListener::checkMessageReceived(void) {
 	mutex_obj.lock();
 	//cout << "Message:lock" << endl;
 	if (m_message_received) {

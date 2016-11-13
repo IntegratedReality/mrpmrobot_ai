@@ -9,7 +9,7 @@ constexpr int WIDTH_OF_FIELD = 1800;
 constexpr int HEIGHT_OF_FIELD = 2700;
 constexpr double SCALE = 0.25;
 
-constexpr int NUM_OF_ROBOT = 6;
+constexpr int NUM_OF_ROBOT = 4;
 constexpr int RADIUS_OF_ROBOT = 100;
 
 constexpr int NUM_OF_POINT_OBJ = 3;

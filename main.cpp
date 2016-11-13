@@ -46,7 +46,7 @@ int main(int argc, char **argv)
 
   std::thread ai_thread([&](){
       sender.sendShot(ID, false);
-      //while (ID >= 3 || receiver.getData(ID).isAI) {
+      //while (ID >= 3 || receiver.getData(ID).isAI) 
       while (true) {  //これはAI用プログラムなので
       static bool last_shot_state = ai.getOperation().shot;
       //if (!(receiver.getData(ID).state == DEAD || receiver.getData(ID).state == STANDBY)) {
@@ -56,13 +56,14 @@ int main(int argc, char **argv)
       }
       //}
       last_shot_state = ai.getOperation().shot;
-      for (int i = 0; i < 6; i++) {
+      for (int i = 0; i < NUM_OF_ROBOT; i++) {
       ai.setRobotData(i, receiver.getData(i));
       }
-      for (int i = 0; i < 3; i++) {
+      for (int i = 0; i < NUM_OF_POINT_OBJ; i++) {
       ai.setPOOwner(i, receiver.getPOOwner(i));
       }
       ai.update();
+std::cerr<<"ai.update()"<<std::endl;
       }
       });
   ai_thread.detach();
@@ -73,7 +74,7 @@ int main(int argc, char **argv)
     sender.sendOperation(static_cast<int>(ai.getOperation().direction));
 
     //Operation送信間隔を決める
-    usleep(10000);
+    usleep(100000);
   }
   return 0;
-  }
+}
